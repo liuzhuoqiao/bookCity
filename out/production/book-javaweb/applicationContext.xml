@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE beans [
+        <!ELEMENT beans (bean*)>
+        <!ELEMENT bean (property*)>
+        <!ELEMENT property (#PCDATA)>
+
+        <!ATTLIST bean id ID #REQUIRED>
+        <!ATTLIST bean class CDATA #IMPLIED>
+        <!ATTLIST property name CDATA #IMPLIED>
+        <!ATTLIST property ref IDREF #IMPLIED>
+        ]>
+<beans>
+
+    <bean id="userService" class="com.lzqedu.bookCity.service.impl.UserServiceImpl">
+        <property name="userDAO" ref="userDAO"/>
+    </bean>
+    <bean id="bookService" class="com.lzqedu.bookCity.service.impl.BookServiceImpl">
+        <property name="bookDAO" ref="bookDAO"/>
+    </bean>
+    <bean id="cartItemService" class="com.lzqedu.bookCity.service.impl.CartItemServiceImpl">
+        <property name="cartItemDAO" ref="cartItemDAO"/>
+        <property name="bookService" ref="bookService"/>
+    </bean>
+    <bean id="orderBeanService" class="com.lzqedu.bookCity.service.impl.OrderBeanServiceImpl">
+        <property name="orderBeanDAO" ref="orderBeanDAO"/>
+        <property name="orderItemService" ref="orderItemService"/>
+        <property name="cartItemService" ref="cartItemService"/>
+    </bean>
+    <bean id="orderItemService" class="com.lzqedu.bookCity.service.impl.OrderItemServiceImpl">
+        <property name="orderItemDAO" ref="orderItemDAO"/>
+    </bean>
+
+    <bean id="userDAO" class="com.lzqedu.bookCity.dao.impl.UserDAOImpl"/>
+    <bean id="bookDAO" class="com.lzqedu.bookCity.dao.impl.BookDAOImpl"/>
+    <bean id="cartItemDAO" class="com.lzqedu.bookCity.dao.impl.CartItemDAOImpl"/>
+    <bean id="orderBeanDAO" class="com.lzqedu.bookCity.dao.impl.OrderBeanDAOImpl"/>
+    <bean id="orderItemDAO" class="com.lzqedu.bookCity.dao.impl.OrderItemDAOImpl"/>
+
+    <bean id="page" class="com.atguigu.myssm.myspringmvc.PageController"/>
+    <bean id="book" class="com.lzqedu.bookCity.controller.BookController">
+        <property name="bookService" ref="bookService"/>
+        <property name="cartItemService" ref="cartItemService"/>
+    </bean>
+    <bean id="user" class="com.lzqedu.bookCity.controller.UserController">
+        <property name="userService" ref="userService"/>
+        <property name="cartItemService" ref="cartItemService"/>
+    </bean>
+    <bean id="cart" class="com.lzqedu.bookCity.controller.CartController">
+        <property name="cartItemService" ref="cartItemService"/>
+        <property name="orderBeanService" ref="orderBeanService"/>
+    </bean>
+    <bean id="order" class="com.lzqedu.bookCity.controller.OrderController">
+        <property name="orderBeanService" ref="orderBeanService"/>
+    </bean>
+    <bean id="regist" class="com.lzqedu.bookCity.controller.RegistController">
+        <property name="userService" ref="userService"/>
+    </bean>
+</beans>
